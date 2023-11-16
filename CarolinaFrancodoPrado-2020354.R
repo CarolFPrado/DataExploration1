@@ -1,3 +1,11 @@
+#Load libraries
+library(ggplot2)
+library(robustbase)
+library(gridExtra)
+
+#Create subset "crimes"
+crimes= read.table("crimes_against_women_2001_2014.csv", header=TRUE)
+
 #Attributing other names to the columns
 
 years <- crimes_against_women_2001_2014$Year
@@ -39,7 +47,7 @@ print(result.meanis)
 result.meancr <- mean(cruelty)
 print(result.meancr)
 
-###importationg
+### importationg
 result.meanig <- mean(importationg)
 print(result.meanig)
 
@@ -73,6 +81,7 @@ print(result.medianis)
 result.mediancr <- median(cruelty)
 print(result.mediancr)
 
-###importationg
+### importationg
 result.medianig <- median(importationg)
 print(result.medianig)
+####
