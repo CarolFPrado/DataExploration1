@@ -4,18 +4,19 @@ library(robustbase)
 library(gridExtra)
 
 #Create subset "crimes"
-crimes= read.table("crimes_against_women_2001_2014.csv", header=TRUE)
-
+crimes=  read.csv(file = "crimes_against_women_2001-2014.csv", stringsAsFactors =
+                    FALSE)
+head(crimes)
 #Attributing other names to the columns
 
-years <- crimes_against_women_2001_2014$Year
-rape <- crimes_against_women_2001_2014$Rape
-kidna <- crimes_against_women_2001_2014$`Kidnapping and Abduction`
-dowry <- crimes_against_women_2001_2014$`Dowry Deaths`
-assault <- crimes_against_women_2001_2014$`Assault on women with intent to outrage her modesty`
-insult <- crimes_against_women_2001_2014$`Insult to modesty of Women`
-cruelty <- crimes_against_women_2001_2014$`Cruelty by Husband or his Relatives`
-importationg <- crimes_against_women_2001_2014$`Importation of Girls`
+years <- crimes$Year
+rape <- crimes$Rape
+kidna <- crimes$Kidnapping.and.Abduction
+dowry <- crimes$Dowry.Deaths
+assault <- crimes$Assault.on.women.with.intent.to.outrage.her.modesty
+insult <- crimes$Insult.to.modesty.of.Women
+cruelty <- crimes$Cruelty.by.Husband.or.his.Relatives
+importationg <- crimes$Importation.of.Girls
 
 ################### FIND MEAN
 
@@ -84,4 +85,130 @@ print(result.mediancr)
 ### importationg
 result.medianig <- median(importationg)
 print(result.medianig)
-####
+
+#####FIND MIN
+### years
+result.miny <- min(years)
+print(result.miny)
+
+### rape
+result.minrp <- min(rape)
+print(result.minrp)
+
+### kidnap
+result.minkp <- min(kidna)
+print(result.minkp)
+
+### dowry
+result.mindo <- min(dowry)
+print(result.mindo)
+
+### assault
+result.minas <- min(assault)
+print(result.minas)
+
+### insult
+result.minis <- min(insult)
+print(result.minis)
+
+### cruelty
+result.mincr <- min(cruelty)
+print(result.mincr)
+
+### importationg
+result.minig <- min(importationg)
+print(result.minig)
+
+#######FIN MAX
+### years
+result.maxy <- max(years)
+print(result.maxy)
+
+### rape
+result.maxrp <- max(rape)
+print(result.maxrp)
+
+### kidnap
+result.maxkp <- max(kidna)
+print(result.maxkp)
+
+### dowry
+result.maxdo <- max(dowry)
+print(result.maxdo)
+
+### assault
+result.maxas <- max(assault)
+print(result.maxas)
+
+### insult
+result.maxis <- max(insult)
+print(result.maxis)
+
+### cruelty
+result.maxcr <- max(cruelty)
+print(result.maxcr)
+
+### importationg
+result.maxig <- max(importationg)
+print(result.maxig)
+
+#######Standard Deviation
+### years
+result.sdy <- sd(years)
+print(result.sdy)
+
+### rape
+result.sdrp <- sd(rape)
+print(result.sdrp)
+
+### kidnap
+result.sdkp <- sd(kidna)
+print(result.sdkp)
+
+### dowry
+result.sddo <- sd(dowry)
+print(result.sddo)
+
+### assault
+result.sdas <- sd(assault)
+print(result.sdas)
+
+### insult
+result.sdis <- sd(insult)
+print(result.sdis)
+
+### cruelty
+result.sdcr <- sd(cruelty)
+print(result.sdcr)
+
+### importationg
+result.sdig <- sd(importationg)
+print(result.sdig)
+
+####### Min-Max Scaling
+normalizeMinMax <- function(x) {
+  return ((x - min(x)) / (max(x) - min(x)))
+}
+crimes_minmax <- crimes
+crimes_minmax[,5:10] <- apply(crimes[,5:10], 2, normalizeMinMax)
+
+head(crimes_minmax)
+
+###### Z-Score Standardization
+normalizeStandardized <- function(x) {
+  return ((x - mean(x)) / sd(x))
+}
+
+crimes_standardized <- crimes
+crimes_standardized[, 5:10] <- apply(crimes[, 5:10], 2, normalizeStandardized)
+
+head(crimes_standardized)
+
+####### Robust Scaling (Robust Standardization)
+crimes_robust <- crimes
+crimes_robust[, 5:10] <- scale(crimes[, 5:10], center = TRUE, scale = TRUE)
+
+head(crimes_robust)
+
+###### Create histograms for the original and scaled data
+options(repr.plot.width = 12, repr.plot.height = 4)
