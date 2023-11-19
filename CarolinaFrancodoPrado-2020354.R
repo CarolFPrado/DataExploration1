@@ -210,5 +210,17 @@ crimes_robust[, 5:10] <- scale(crimes[, 5:10], center = TRUE, scale = TRUE)
 
 head(crimes_robust)
 
-###### Create histograms for the original and scaled data
-options(repr.plot.width = 12, repr.plot.height = 4)
+####Dummy coding
+# The dataset used for the current analyses does not have a categorical variable
+#that would justify using a Dummy coding, so for the present study was analysed the last 
+#column "Importation of Girls" using the Dummy code if the crime happened or not.
+
+chappen <- crimes$Importation.of.Girls!=0
+NOThappen <- crimes$Importation.of.Girls==0
+  
+ impgh <-ifelse(chappen, 1,0)
+ impgNh <-ifelse(NOThappen, 1,0)
+
+crimeig_reg <- data.frame(impgh = impgh,
+                          impgNh = impgNh)
+crimeig_reg
