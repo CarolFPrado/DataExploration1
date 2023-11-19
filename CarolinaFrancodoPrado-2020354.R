@@ -210,7 +210,7 @@ crimes_robust[, 5:10] <- scale(crimes[, 5:10], center = TRUE, scale = TRUE)
 
 head(crimes_robust)
 
-####Dummy coding
+####### Dummy coding
 # The dataset used for the current analyses does not have a categorical variable
 #that would justify using a Dummy coding, so for the present study was analysed the last 
 #column "Importation of Girls" using the Dummy code if the crime happened or not.
@@ -224,3 +224,48 @@ NOThappen <- crimes$Importation.of.Girls==0
 crimeig_reg <- data.frame(impgh = impgh,
                           impgNh = impgNh)
 crimeig_reg
+
+####### PCA
+
+#install package
+install.packages("factoextra")
+
+
+#load library
+library(factoextra)
+
+#extract data that will be used 
+data(crimes)
+crimes.active <- crimes[2:20, 5:10]
+head(crimes.active)
+
+#Compute PCA
+result.pca <- prcomp(crimes.active, scale = TRUE)
+
+#Visualize eigenvalues (scree plot)
+fviz_eig(result.pca)
+
+#Graph of variables
+fviz_pca_var(result.pca,
+             col.var = "contrib", # Color by contributions to the PC
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE     # Avoid text overlapping
+)
+
+### Access to the PCA results
+# Eigenvalues
+eig.val <- get_eigenvalue(result.pca)
+eig.val
+
+#Results for Variables
+result.var <- get_pca_var(result.pca)
+result.var$coord          # Coordinates
+result.var$contrib        # Contributions to the PCs
+result.var$cos2           # Quality of representation 
+
+# Results for district/year
+result.ind <- get_pca_ind(result.pca)
+result.ind$coord          # Coordinates
+result.ind$contrib        # Contributions to the PCs
+result.ind$cos2           # Quality of representation 
+
